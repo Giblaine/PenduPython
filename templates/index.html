@@ -20,6 +20,7 @@
                         localStorage.setItem("uuid", data.uuid);
                         localStorage.setItem("mot", data.etat_mot);
                         localStorage.setItem("coup_restant", data.coup_restant);
+                        localStorage.setItem("img", 0);
                         jeu.innerHTML="";
                         jeu.innerHTML='<h1>Le mot à trouver : ' + localStorage.getItem("mot") + '</h1>';
                         jeu.innerHTML+='<h3>Il vous reste : ' + localStorage.getItem("coup_restant") + ' essais</h3>';
@@ -51,8 +52,15 @@
                             jeu.innerHTML+='<input id="lettre" name="lettre" class="form-control" type="text" maxlength="1"></input>';
                             jeu.innerHTML+='<br />';
                             jeu.innerHTML+='<button class="btn btn-lg btn-primary" onclick="return proposeLettre()">Propose la lettre</button>';
+                            jeu.innerHTML+='<br />';
                         } else {
                             jeu.innerHTML+='<button class="btn btn-lg btn-info" onclick="location.reload()">Nouvelle partie ?</button>';
+                        }
+                        if(data.code == 1002) {
+                            localStorage.setItem('img',parseInt(localStorage.getItem('img'))+1);
+                            jeu.innerHTML+='<img src="/static/' + localStorage.getItem('img') + '.png" />';
+                        } else if (data.code != 1000) {
+                            jeu.innerHTML+='<img src="/static/' + localStorage.getItem('img') + '.png" />';
                         }
                   },
                 });                
