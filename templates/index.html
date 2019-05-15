@@ -1,6 +1,66 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            function nouveauJeu(){
+                let longueur = document.getElementById("longueur").value;
+                let jeu = document.getElementById("jeu");
+                $.ajax({
+                    type: "GET",
+                    url: "http://pendupython-api.cleverapps.io/jeu/nouveau/" + longueur,
+                    success: function (data) { 
+                        localStorage.setItem("uuid", data.uuid);
+                        localStorage.setItem("mot", data.etat_mot);
+                        localStorage.setItem("coup_restant", data.coup_restant);
+                        jeu.innerHTML="";
+                        jeu.innerHTML='<h1>Le mot à trouver : ' + localStorage.getItem("mot") + '</h1>';
+                        jeu.innerHTML+='<h3>Il vous reste : ' + localStorage.getItem("coup_restant") + ' essais</h3>';
+                        jeu.innerHTML+='<label>Lettre proposée </label>';
+                        jeu.innerHTML+='<input id="lettre" name="lettre" class="form-control" type="text" maxlength="1"></input>';
+                        jeu.innerHTML+='<br />';
+                        jeu.innerHTML+='<button onclick="return proposeLettre()">Propose la lettre</button>';
+                  },
+                });                
+            }
+            function proposeLettre(){
+                let lettre = document.getElementById("lettre").value;
+                let jeu = document.getElementById("jeu");
+                $.ajax({
+                    type: "GET",
+                    url: "http://pendupython-api.cleverapps.io/jeu/jouer/" + localStorage.getItem("uuid") + "/" + lettre,
+                    success: function (data) { 
+                        jeu.innerHTML="";
+                        if(data.mot != undefined) {
+                            localStorage.setItem("mot", data.mot);
+                            jeu.innerHTML='<h1>Le mot à trouver : ' + localStorage.getItem("mot") + '</h1>';
+                        }
+                        if(data.coup_restant != undefined) {
+                            localStorage.setItem("coup_restant", data.coup_restant);
+                        }
+                        jeu.innerHTML+='<h3>' + data.message + '</h3>';
+                        if(data.code != 1000) {
+                            jeu.innerHTML+='<label>Lettre proposée </label>';
+                            jeu.innerHTML+='<input id="lettre" name="lettre" class="form-control" type="text" maxlength="1"></input>';
+                            jeu.innerHTML+='<br />';
+                            jeu.innerHTML+='<button onclick="return proposeLettre()">Propose la lettre</button>';
+                        } else {
+                            jeu.innerHTML+='<button onclick="location.reload()">Nouvelle partie ?</button>';
+                        }
+                  },
+                });                
+            }
+         </script>
+    </head>
     <body>
-        <p>Hello</p>
+        <div class="container">
+            <div id="jeu" name="jeu">
+                <label>Taille du mot </label>
+                <input id="longueur" name="longueur" class="form-control" type="number"></input>
+                <br />
+                <button onclick="return nouveauJeu()">Commencer une partie</button>
+            </div>
+        </div>
     </body>
 </html>
