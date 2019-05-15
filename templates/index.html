@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <title>Le jeu du Pendu</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <style>
+            #jeu {
+                padding-top: 50px;
+            }
+        </style>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script type="text/javascript">
             function nouveauJeu(){
@@ -20,7 +26,7 @@
                         jeu.innerHTML+='<label>Lettre proposée </label>';
                         jeu.innerHTML+='<input id="lettre" name="lettre" class="form-control" type="text" maxlength="1"></input>';
                         jeu.innerHTML+='<br />';
-                        jeu.innerHTML+='<button onclick="return proposeLettre()">Propose la lettre</button>';
+                        jeu.innerHTML+='<button class="btn btn-lg btn-primary" onclick="return proposeLettre()">Propose la lettre</button>';
                   },
                 });                
             }
@@ -44,9 +50,9 @@
                             jeu.innerHTML+='<label>Lettre proposée </label>';
                             jeu.innerHTML+='<input id="lettre" name="lettre" class="form-control" type="text" maxlength="1"></input>';
                             jeu.innerHTML+='<br />';
-                            jeu.innerHTML+='<button onclick="return proposeLettre()">Propose la lettre</button>';
+                            jeu.innerHTML+='<button class="btn btn-lg btn-primary" onclick="return proposeLettre()">Propose la lettre</button>';
                         } else {
-                            jeu.innerHTML+='<button onclick="location.reload()">Nouvelle partie ?</button>';
+                            jeu.innerHTML+='<button class="btn btn-lg btn-info" onclick="location.reload()">Nouvelle partie ?</button>';
                         }
                   },
                 });                
@@ -59,7 +65,7 @@
                 <label>Taille du mot </label>
                 <input id="longueur" name="longueur" class="form-control" type="number"></input>
                 <br />
-                <button onclick="return nouveauJeu()">Commencer une partie</button>
+                <button class="btn btn-lg btn-primary" onclick="return nouveauJeu()">Commencer une partie</button>
             </div>
         </div>
     </body>
